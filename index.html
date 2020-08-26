@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        .page1{
+            display:flex;
+            flex-direction: row;
+            height: 100vh;
+        }
+        .page1__right_panel{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+            flex-direction: column;
+            flex:1;
+        }
+        .page1__left_panel_1{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            background: url('minecraft1.png') no-repeat center center/cover;
+            flex:6;
+        }
+        .page1__left_panel_2{
+            display: none;
+            flex:6;
+        }
+        .main__btnStart{
+            display: block;
+            margin:20px auto;
+            padding:10px 70px;
+            font-size:20px;
+            border-radius: 4px;
+            font-family: 'Press Start 2P', cursive;
+        }
+        .main__btnStart:hover{
+            cursor: pointer;
+        }
+        
+        .main_side_items__pickaxe img,
+        .main_side_items__shovel img,
+        .main_side_items__axe img{
+            height:100px;
+            width:100px;
+            border:2px white solid;
+            margin-bottom: 10px;
+        }
+        .main_side_items__chosen
+        {
+            height:60px;
+            width:60px;
+            border:2px white solid;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="page1">
+        <div class="page1__left_panel_1">
+            <div class="main">
+                <img src="header.png"></img>
+                <button class="main__btnStart">Start</button>
+            </div>
+        </div>
+        <div class="page1__left_panel_2"> 
+            
+        </div>
+        <div class="page1__right_panel">
+            <div class="main_side_items">
+                <div class="main_side_items__pickaxe"><img src="blue_pickaxe.png"></img></div>
+                <div class="main_side_items__shovel"><img src="shovel.png"></img></div>
+                <div class="main_side_items__axe"><img src="axe.png"></img></div>
+                <div class="main_side_items__chosen"><img src=""></img></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let btnStart= document.querySelector(".main__btnStart");
+        btnStart.addEventListener("click",startGame);
+        function startGame(event){
+            let page1= document.querySelector(".page1__left_panel");
+            page1.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
