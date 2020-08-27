@@ -28,7 +28,20 @@
         }
         .page1__left_panel_2{
             display: none;
+            justify-content: center;
+            align-items: center;
+            height:100vh;
             flex:6;
+            transition:opacity 0.3s linear;
+            
+        }
+        .page1__left_panel_2__myWorld{
+            display: none;
+            background:rgb(138, 185, 238);
+            height: 100vh;
+            width:60vh;
+            grid-template-columns: repeat(20, 1fr);
+            grid-template-rows: repeat(20, 1fr);
         }
         .main__btnStart{
             display: block;
@@ -57,6 +70,37 @@
             border:2px white solid;
             margin: 0 auto;
         }
+        /* tile */
+        .block{
+            background-position:center;
+            background-repeat:no-repeat; 
+            background-size:cover;
+            height:5vh;
+            /* width:5vh; */
+        }
+        /* grass */
+        .blockSky
+        {
+            background-image:url("sky_block.png");
+        }
+        .blockCloud{
+            background-color: white;
+        }
+        .blockTreeLeaf{
+            background-image:url("tree_leaf.png");
+        }
+        .blockTreeTrunk{
+            background-image:url("tree_trunk.png");
+        }
+        .blockStone{
+            background-image:url("stone_block.png");
+        }
+        .blockTopLand{
+            background-image:url("land_top_block.png");
+        }
+        .blockBottomLand{
+            background-image:url("land_bottom_block.png");
+        }        
     </style>
 </head>
 <body>
@@ -68,7 +112,9 @@
             </div>
         </div>
         <div class="page1__left_panel_2"> 
-            
+            <div class="page1__left_panel_2__myWorld">
+
+            </div>
         </div>
         <div class="page1__right_panel">
             <div class="main_side_items">
@@ -80,12 +126,118 @@
         </div>
     </div>
     <script>
+
+        // let theGame={ 
+        //      worldmatrix=[],
+        //      potentialsTools:{axe:1,picaxe:1,shovel:1},
+        //      selectedTool:{},
+        //      worldZoneElement:{sky:1,trunk:1,leaf:1,topDirt:1,bottomDirt:1,stone:1},
+             
+        // };
+
         let btnStart= document.querySelector(".main__btnStart");
         btnStart.addEventListener("click",startGame);
         function startGame(event){
-            let page1= document.querySelector(".page1__left_panel");
-            page1.style.display = 'none';
+            hidePreviousPage1(event);
+            createNewWorld(event);//full picture matrix
+            //chooseTool(event);//options-the background becomes blue:shovel-land,pickaxe-for stone,axe-tree green&&tree root=trunk
+            //useToolToRemoveBlock(event);//tool can be used,tool cant be used depends on what block it can remove(red background if not)
+            // more than 1 block
+            //addBlockToChosen(event);//
+            //chooseBlockFromToolBar(event);//click it 
+            //chooseSpotForBlock(event);//border is white size of block
+            //placeBlock(event);//check if the spot not taken with another block the block has white border
+            ///if click is done reset the world
+
+
         }
+        function hidePreviousPage1(event)
+        {
+            
+            let page1__left_panel_1 = document.querySelector(".page1__left_panel_1");
+            let page1__left_panel_2 = document.querySelector(".page1__left_panel_2");
+            let page1__left_panel_2__myWorld = document.querySelector(".page1__left_panel_2__myWorld");
+            page1__left_panel_1.style.display = 'none';//css style
+            page1__left_panel_2.style.display="grid";
+            page1__left_panel_2__myWorld.style.display = 'grid';
+        }
+        function createNewWorld(event){
+            let worldArr=[];
+            for(let row=0; row<20;row++)
+            {
+                worldArr[row] = []; 
+                for(let column=0;column<20;column++){
+                    let page1__left_panel_2__myWorld=document.querySelector(".page1__left_panel_2__myWorld");
+                    let div= document.createElement("div");
+                    div.classList.add("block");
+                    if(row<14)
+                    {
+                        if(row==13&& column==1 || row==13&& column==2 || row==13&& column==3 || row==12&& column==2)
+                        {
+                            div.classList.add("blockTreeLeaf");
+                            page1__left_panel_2__myWorld.append(div);
+                            let img = document.querySelector(".block.blockTreeLeaf");
+                            worldArr[row][column]=img;
+                        }
+                        // if(row==13 && column== || row==9 && column==4 || row==9 && column==5 || row==8 && column==4 )
+                        // {
+                        //     div.classList.add("blockStone");
+                        //     page1__left_panel_2__myWorld.append(div);
+                        //     let img = document.querySelector(".block.blockStone");
+                        //     worldArr[row][column]=img;
+                        // }
+                        div.classList.add("blockSky");
+                        page1__left_panel_2__myWorld.append(div);
+                        let img = document.querySelector(".block.blockSky");
+                        worldArr[row][column]=img;
+                    }
+                    // if(row>10)
+                    // {
+                    //     div.classList.add("blockStone");
+                    //     page1__left_panel_2__myWorld.append(div);
+                    //     let img = document.querySelector(".block.blockStone");
+                    //     worldArr[row][column]=img;
+                    // }
+                    // if(row==7 && column==11 || row==8 && column==11 || row==9 && column==11){
+                    //     div.classList.add("blockTreeTrunk");
+                    //     page1__left_panel_2__myWorld.append(div);
+                    //     let img = document.querySelector(".block.blockTreeTrunk");
+                    //     worldArr[row][column]=img;
+                    // }
+                    // if(row==9 && column==3 || row==9 && column==4 || row==9 && column==5 || row==8 && column==4 )
+                    // {
+                    //     div.classList.add("blockStone");
+                    //     page1__left_panel_2__myWorld.append(div);
+                    //     let img = document.querySelector(".block.blockStone");
+                    //     worldArr[row][column]=img;
+                    // }
+                    // if(row==9 && column==14)
+                    // {
+                    //     div.classList.add("blockStone");
+                    //     page1__left_panel_2__myWorld.append(div);
+                    //     let img = document.querySelector(".block.blockStone");
+                    //     worldArr[row][column]=img;
+                    // }
+                    if(row==14)
+                    {
+                        div.classList.add("blockTopLand");
+                        page1__left_panel_2__myWorld.append(div);
+                        let img = document.querySelector(".block.blockTopLand");
+                        worldArr[row][column]=img;
+                    }
+                    if(row>14)
+                    {
+                        // debugger;
+                        div.classList.add("blockBottomLand");
+                        page1__left_panel_2__myWorld.append(div);
+                        let img = document.querySelector(".block.blockBottomLand");
+                        worldArr[row][column]=img;
+                    }
+
+                }
+            }
+        }
+
     </script>
 </body>
 </html>
