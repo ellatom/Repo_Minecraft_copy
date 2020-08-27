@@ -6,6 +6,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>Document</title>
     <style>
+        :root{
+            box-sizing: border-box;
+            padding:0px;
+            margin:0px;
+        }
         .page1{
             display:flex;
             flex-direction: row;
@@ -63,6 +68,11 @@
             border:2px white solid;
             margin-bottom: 10px;
         }
+        .main_side_items__pickaxe img:hover,
+        .main_side_items__shovel img:hover,
+        .main_side_items__axe img:hover{
+            cursor: pointer;
+        }
         .main_side_items__chosen
         {
             height:60px;
@@ -77,6 +87,9 @@
             background-size:cover;
             height:5vh;
             /* width:5vh; */
+        }
+        .block:hover{
+            border: 1px white solid;
         }
         /* grass */
         .blockSky
@@ -94,6 +107,9 @@
         }
         .blockStone{
             background-image:url("stone_block.png");
+        }
+        .blockWhite{
+            background-image:url("block_white.png");
         }
         .blockTopLand{
             background-image:url("land_top_block.png");
@@ -137,10 +153,17 @@
 
         let btnStart= document.querySelector(".main__btnStart");
         btnStart.addEventListener("click",startGame);
+        let shovel = document.querySelector("main_side_items__shovel img");
+        shovel.addEventListener("click",chooseTool);
+        let axe = document.querySelector("main_side_items__axe img");
+        axe.addEventListener("click",chooseTool);
+        let pickaxe = document.querySelector("main_side_items__pickaxe img");
+        axe.addEventListener("click",chooseTool);
+
         function startGame(event){
             hidePreviousPage1(event);
             createNewWorld(event);//full picture matrix
-            //chooseTool(event);//options-the background becomes blue:shovel-land,pickaxe-for stone,axe-tree green&&tree root=trunk
+            chooseTool(event);//options-the background becomes blue:shovel-land,pickaxe-for stone,axe-tree green&&tree root=trunk
             //useToolToRemoveBlock(event);//tool can be used,tool cant be used depends on what block it can remove(red background if not)
             // more than 1 block
             //addBlockToChosen(event);//
@@ -179,45 +202,44 @@
                             let img = document.querySelector(".block.blockTreeLeaf");
                             worldArr[row][column]=img;
                         }
-                        // if(row==13 && column== || row==9 && column==4 || row==9 && column==5 || row==8 && column==4 )
-                        // {
-                        //     div.classList.add("blockStone");
-                        //     page1__left_panel_2__myWorld.append(div);
-                        //     let img = document.querySelector(".block.blockStone");
-                        //     worldArr[row][column]=img;
-                        // }
+                        if(row==13 && column==19 || row==13 && column==14 || row==13 && column==13)//|| row==9 && column==4 || row==9 && column==5 || row==8 && column==4 
+                        {
+                            div.classList.add("blockStone");
+                            page1__left_panel_2__myWorld.append(div);
+                            let img = document.querySelector(".block.blockStone");
+                            worldArr[row][column]=img;
+                        }
                         div.classList.add("blockSky");
                         page1__left_panel_2__myWorld.append(div);
                         let img = document.querySelector(".block.blockSky");
                         worldArr[row][column]=img;
                     }
-                    // if(row>10)
-                    // {
-                    //     div.classList.add("blockStone");
-                    //     page1__left_panel_2__myWorld.append(div);
-                    //     let img = document.querySelector(".block.blockStone");
-                    //     worldArr[row][column]=img;
-                    // }
-                    // if(row==7 && column==11 || row==8 && column==11 || row==9 && column==11){
-                    //     div.classList.add("blockTreeTrunk");
-                    //     page1__left_panel_2__myWorld.append(div);
-                    //     let img = document.querySelector(".block.blockTreeTrunk");
-                    //     worldArr[row][column]=img;
-                    // }
-                    // if(row==9 && column==3 || row==9 && column==4 || row==9 && column==5 || row==8 && column==4 )
-                    // {
-                    //     div.classList.add("blockStone");
-                    //     page1__left_panel_2__myWorld.append(div);
-                    //     let img = document.querySelector(".block.blockStone");
-                    //     worldArr[row][column]=img;
-                    // }
-                    // if(row==9 && column==14)
-                    // {
-                    //     div.classList.add("blockStone");
-                    //     page1__left_panel_2__myWorld.append(div);
-                    //     let img = document.querySelector(".block.blockStone");
-                    //     worldArr[row][column]=img;
-                    // }
+                    if(row==13 && column==16 || row==12 && column==16|| row==11 && column==16)
+                    {
+                        div.classList.add("blockTreeTrunk");
+                        page1__left_panel_2__myWorld.append(div);
+                        let img = document.querySelector(".block.blockTreeTrunk");
+                        worldArr[row][column]=img;
+                    }
+                    if(row==10 && column==16 || row==9 && column==16 || row==8 && column==16 ||
+                    row==10 && column==15 || row==10 && column==17 || row==9 && column==15 || row==9 && column==17||
+                    row==8 && column==15 || row==8 && column==17){
+                        div.classList.add("blockTreeLeaf");
+                        page1__left_panel_2__myWorld.append(div);
+                        let img = document.querySelector(".block.blockTreeLeaf");
+                        worldArr[row][column]=img;
+                    }
+                    if( row==8 && column==7 || row==8 && column==8 || row==7 && column==7
+                    || row==7 && column==8 || row==7 && column==9|| row==7 && column==10
+                    || row==6 && column==9|| row==6 && column==10 
+                    || row==7 && column==9|| row==7 && column==10
+                    || row==6 && column==9|| row==6 && column==10){
+                        div.classList.add("blockWhite");
+                        page1__left_panel_2__myWorld.append(div);
+                        let img = document.querySelector(".block.blockWhite");
+                        worldArr[row][column]=img;
+                    }
+                   
                     if(row==14)
                     {
                         div.classList.add("blockTopLand");
@@ -227,7 +249,6 @@
                     }
                     if(row>14)
                     {
-                        // debugger;
                         div.classList.add("blockBottomLand");
                         page1__left_panel_2__myWorld.append(div);
                         let img = document.querySelector(".block.blockBottomLand");
@@ -237,7 +258,10 @@
                 }
             }
         }
-
+        function chooseTool(event){
+            debugger;
+            console.log(event);
+        }
     </script>
 </body>
 </html>
