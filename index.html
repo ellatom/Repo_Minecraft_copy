@@ -59,7 +59,11 @@
         .main__btnStart:hover{
             cursor: pointer;
         }
-        
+        .main_side_items{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .main_side_items__pickaxe img,
         .main_side_items__shovel img,
         .main_side_items__axe img{
@@ -70,15 +74,34 @@
         }
         .main_side_items__pickaxe img:hover,
         .main_side_items__shovel img:hover,
-        .main_side_items__axe img:hover{
+        .main_side_items__axe img:hover,
+        .main_side_items__btn_resetworld
+        {
             cursor: pointer;
         }
         .main_side_items__chosen
         {
             height:60px;
             width:60px;
-            border:2px white solid;
+
+            box-sizing: border-box;
             margin: 0 auto;
+        }
+        .main_side_items__chosen img{
+            height:60px;
+            width:60px;
+            border:2px white solid;
+        }
+        .main_side_items__chosen img:hover{
+            border:4px blue solid;
+        }
+
+        .main_side_items__btn_resetworld{
+            padding:5px 20px;
+            margin-top:40px;
+            align-items: center;
+            font-size: 16px;
+            font-family: 'Press Start 2P', cursive;
         }
         /* tile */
         .block{
@@ -138,7 +161,8 @@
                 <div class="main_side_items__pickaxe"><img src="blue_pickaxe.png"></img></div>
                 <div class="main_side_items__shovel"><img src="shovel.png"></img></div>
                 <div class="main_side_items__axe"><img src="axe.png"></img></div>
-                <div class="main_side_items__chosen"><img src=""></img></div>
+                <div class="main_side_items__chosen"><img></img></div>
+                <button class="main_side_items__btn_resetworld">Reset</button>
             </div>
         </div>
     </div>
@@ -153,28 +177,32 @@
         // };
 
         let btnStart= document.querySelector(".main__btnStart");
-        btnStart.addEventListener("click",startGame);
-        // debugger;
-        // let blockClick = document.querySelector(".page1__left_panel_2__myWorld>.block");
-        // blockClick.addEventListener("click",useToolToRemoveBlock);
-        
         let pickaxe = document.querySelector(".main_side_items__pickaxe img");
         let shovel = document.querySelector(".main_side_items__shovel img");
         let axe = document.querySelector(".main_side_items__axe img");
+        let reset=document.querySelector(".main_side_items__btn_resetworld");
         let choosenTool=pickaxe;
-
+        
+        btnStart.addEventListener("click",startGame);
         pickaxe.addEventListener("click",chooseToolPickaxe);
         shovel.addEventListener("click",chooseToolShovel);
         axe.addEventListener("click",chooseToolAxe);
+        choosenTool.addEventListener("click",choosePlaceForBlockInWorld);
+        reset.addEventListener("click",startGame);
 
-        
+       
+
+
         function startGame(event){
             hidePreviousPage1(event);
             createNewWorld(event);//full picture matrix
-            // useToolToRemoveBlock(event);
+            
+            // let blockBottomLandClick = document.querySelector(".block.blockBottomLand");
+            // blockBottomLandClick.addEventListener("click",useToolToRemoveBlockBottomLand);
             // chooseToolShovel(event);//options-the background becomes blue:shovel-land,pickaxe-for stone,axe-tree green&&tree root=trunk
             //useToolToRemoveBlock(event);//tool can be used,tool cant be used depends on what block it can remove(red background if not)
             // more than 1 block
+
             //addBlockToChosen(event);//
             //chooseBlockFromToolBar(event);//click it 
             //chooseSpotForBlock(event);//border is white size of block
@@ -202,8 +230,16 @@
                     let page1__left_panel_2__myWorld=document.querySelector(".page1__left_panel_2__myWorld");
                     let div= document.createElement("div");
                     div.classList.add("block");
+                    div.addEventListener("click", useToolToRemoveBlock);
+
+                    div.classList.add("blockSky");
+                    page1__left_panel_2__myWorld.append(div);
+                    let img = document.querySelector(".block.blockSky");
+                    worldArr[row][column]=img;
+
                     if(row<14)
                     {
+
                         if(row==13&& column==1 || row==13&& column==2 || row==13&& column==3 || row==12&& column==2)
                         {
                             div.classList.add("blockTreeLeaf");
@@ -211,17 +247,13 @@
                             let img = document.querySelector(".block.blockTreeLeaf");
                             worldArr[row][column]=img;
                         }
-                        if(row==13 && column==19 || row==13 && column==14 || row==13 && column==13)//|| row==9 && column==4 || row==9 && column==5 || row==8 && column==4 
+                        if(row==13 && column==19 || row==13 && column==14 || row==13 && column==13)
                         {
                             div.classList.add("blockStone");
                             page1__left_panel_2__myWorld.append(div);
                             let img = document.querySelector(".block.blockStone");
                             worldArr[row][column]=img;
                         }
-                        div.classList.add("blockSky");
-                        page1__left_panel_2__myWorld.append(div);
-                        let img = document.querySelector(".block.blockSky");
-                        worldArr[row][column]=img;
                     }
                     if(row==13 && column==16 || row==12 && column==16|| row==11 && column==16)
                     {
@@ -267,43 +299,104 @@
                 }
             }
         }
-        function useToolToRemoveBlock(event){
-            
+        function useToolToRemoveBlock(event){//shovel-land,pickaxe-for stone,axe-tree green&&tree root=trunk
+
+            // debugger;
+            console.log(event);
+
+            let stone= event.toElement.classList.contains("blockStone");
+            let treeLeaf=event.currentTarget.classList.contains("blockTreeLeaf");
+            let treeTrunk=event.currentTarget.classList.contains("blockTreeTrunk");
+            let topLand =event.currentTarget.classList.contains("blockTopLand");
+            let bottomLand= event.currentTarget.classList.contains("blockBottomLand");
+            let remove=true;
+            let main_side_items__chosen= document.querySelector(".main_side_items__chosen");
+
+
+
+            if(stone && choosenTool==pickaxe && remove===true)
+            {
+                event.toElement.classList.remove("blockStone");
+                remove=false;
+                let img= document.querySelector(".main_side_items__chosen img");
+                img.src="stone_block.png";
+            }
+            if(treeLeaf && choosenTool==axe && remove===true)
+            {
+                
+                event.toElement.classList.remove("blockTreeLeaf");
+                remove=false;
+                let img= document.querySelector(".main_side_items__chosen img");
+                img.src="tree_leaf.png";
+            }
+            if(treeTrunk && choosenTool==axe && remove===true)
+            {
+                event.toElement.classList.remove("blockTreeTrunk");
+                let img= document.querySelector(".main_side_items__chosen img");
+                img.src="tree_trunk.png";
+            }
+            if(topLand && choosenTool==shovel && remove===true)
+            {
+                event.toElement.classList.remove("blockTopLand");
+                remove=false;
+                let img= document.querySelector(".main_side_items__chosen img");
+                img.src="land_top_block.png";
+            }
+            if(bottomLand && choosenTool==shovel && remove===true)
+            {
+                // debugger;
+                event.toElement.classList.remove("blockBottomLand");
+                remove=false;
+                let img= document.querySelector(".main_side_items__chosen img");
+                img.src="land_bottom_block.png";
+            }
+        //     else{
+        //         .main_side_items__pickaxe img,
+        // .main_side_items__shovel img,
+        // .main_side_items__axe img
+        //     }
 
         }
         function chooseToolPickaxe(event){
+            // debugger;
             switch(choosenTool){
                 case shovel:
                     shovel.src="shovel.png";
+                    break;
                 case pickaxe:
                     axe.src="axe.png";
+                    break;
             }
             pickaxe.src="blue_pickaxe.png";
             choosenTool=pickaxe;
             console.log("pickaxe was chosen");
         }
         function chooseToolShovel(event){
+            // debugger;
             switch(choosenTool){
                 case axe:
                     axe.src="axe.png";
+                    break;
                 case pickaxe:
                     pickaxe.src="pickaxe.png";
+                    break;
             }
             shovel.src="blue_shovel.png";
             choosenTool=shovel;
         }
         function chooseToolAxe(event){
-
+            // debugger;
             switch(choosenTool){//previous tool should be removed from purpule background
                 case shovel:
                     shovel.src="shovel.png";
+                    break;
                 case pickaxe:
                     pickaxe.src="pickaxe.png";
+                    break;
             }
             axe.src="blue_axe.png";
             choosenTool=axe;
         }
-
     </script>
 </body>
 </html>
