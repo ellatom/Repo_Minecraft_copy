@@ -42,9 +42,9 @@
         }
         .page1__left_panel_2__myWorld{
             display: none;
-            background:rgb(138, 185, 238);
+            background:white;
             height: 100vh;
-            width:60vh;
+            width:100vh;
             grid-template-columns: repeat(20, 1fr);
             grid-template-rows: repeat(20, 1fr);
         }
@@ -86,6 +86,7 @@
             background-repeat:no-repeat; 
             background-size:cover;
             height:5vh;
+            box-sizing: border-box;
             /* width:5vh; */
         }
         .block:hover{
@@ -153,17 +154,25 @@
 
         let btnStart= document.querySelector(".main__btnStart");
         btnStart.addEventListener("click",startGame);
-        let shovel = document.querySelector("main_side_items__shovel img");
-        shovel.addEventListener("click",chooseTool);
-        let axe = document.querySelector("main_side_items__axe img");
-        axe.addEventListener("click",chooseTool);
-        let pickaxe = document.querySelector("main_side_items__pickaxe img");
-        axe.addEventListener("click",chooseTool);
+        // debugger;
+        // let blockClick = document.querySelector(".page1__left_panel_2__myWorld>.block");
+        // blockClick.addEventListener("click",useToolToRemoveBlock);
+        
+        let pickaxe = document.querySelector(".main_side_items__pickaxe img");
+        let shovel = document.querySelector(".main_side_items__shovel img");
+        let axe = document.querySelector(".main_side_items__axe img");
+        let choosenTool=pickaxe;
 
+        pickaxe.addEventListener("click",chooseToolPickaxe);
+        shovel.addEventListener("click",chooseToolShovel);
+        axe.addEventListener("click",chooseToolAxe);
+
+        
         function startGame(event){
             hidePreviousPage1(event);
             createNewWorld(event);//full picture matrix
-            chooseTool(event);//options-the background becomes blue:shovel-land,pickaxe-for stone,axe-tree green&&tree root=trunk
+            // useToolToRemoveBlock(event);
+            // chooseToolShovel(event);//options-the background becomes blue:shovel-land,pickaxe-for stone,axe-tree green&&tree root=trunk
             //useToolToRemoveBlock(event);//tool can be used,tool cant be used depends on what block it can remove(red background if not)
             // more than 1 block
             //addBlockToChosen(event);//
@@ -258,10 +267,43 @@
                 }
             }
         }
-        function chooseTool(event){
-            debugger;
-            console.log(event);
+        function useToolToRemoveBlock(event){
+            
+
         }
+        function chooseToolPickaxe(event){
+            switch(choosenTool){
+                case shovel:
+                    shovel.src="shovel.png";
+                case pickaxe:
+                    axe.src="axe.png";
+            }
+            pickaxe.src="blue_pickaxe.png";
+            choosenTool=pickaxe;
+            console.log("pickaxe was chosen");
+        }
+        function chooseToolShovel(event){
+            switch(choosenTool){
+                case axe:
+                    axe.src="axe.png";
+                case pickaxe:
+                    pickaxe.src="pickaxe.png";
+            }
+            shovel.src="blue_shovel.png";
+            choosenTool=shovel;
+        }
+        function chooseToolAxe(event){
+
+            switch(choosenTool){//previous tool should be removed from purpule background
+                case shovel:
+                    shovel.src="shovel.png";
+                case pickaxe:
+                    pickaxe.src="pickaxe.png";
+            }
+            axe.src="blue_axe.png";
+            choosenTool=axe;
+        }
+
     </script>
 </body>
 </html>
