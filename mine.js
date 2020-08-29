@@ -190,6 +190,9 @@ function useToolToRemoveAddBlock(event) {//shovel-land,pickaxe-for stone,axe-tre
         if((treeLeaf || treeTrunk) && (choosenTool===shovel ||choosenTool===pickaxe))
         {
             choosenTool.setAttribute("style","border: 1px solid red;");
+            setTimeout(function(o){
+                choosenTool.setAttribute("style","border: 1px solid white;");
+            },1000)
             temp=choosenTool.getAttribute("src");
             if(temp.match("/^shovel$/"))
                 temp=shovel;
@@ -199,6 +202,9 @@ function useToolToRemoveAddBlock(event) {//shovel-land,pickaxe-for stone,axe-tre
         if((topLand || bottomLand) && (choosenTool===axe ||choosenTool===pickaxe))
         {
             choosenTool.setAttribute("style","border: 1px solid red;");
+            setTimeout(function(o){
+                choosenTool.setAttribute("style","border: 1px solid white;");
+            },1000)
             temp=choosenTool.getAttribute("src");;
             if(temp.match("/^axe$/"))
                 temp=axe;
