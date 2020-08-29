@@ -22,7 +22,6 @@ reset.addEventListener("click", resetGame);
 
 function resetGame(event)
 {
-    // debugger;
     axe.setAttribute("src","axe.png");
     shovel.setAttribute("src","shovel.png");
     pickaxe.setAttribute("src","blue_pickaxe.png")
@@ -44,20 +43,6 @@ function resetGame(event)
 function startGame(event) {
     hidePreviousPage1(event);
     createNewWorld();//full picture matrix
-
-    // let blockBottomLandClick = document.querySelector(".block.blockBottomLand");
-    // blockBottomLandClick.addEventListener("click",useToolToRemoveBlockBottomLand);
-    // chooseToolShovel(event);//options-the background becomes blue:shovel-land,pickaxe-for stone,axe-tree green&&tree root=trunk
-    //useToolToRemoveBlock(event);//tool can be used,tool cant be used depends on what block it can remove(red background if not)
-    // more than 1 block
-
-    //addBlockToChosen(event);//
-    //chooseBlockFromToolBar(event);//click it 
-    //chooseSpotForBlock(event);//border is white size of block
-    //placeBlock(event);//check if the spot not taken with another block the block has white border
-    ///if click is done reset the world
-
-
 }
 function hidePreviousPage1(event) {
     let page1__left_panel_1 = document.querySelector(".page1__left_panel_1");
@@ -155,9 +140,7 @@ function useToolToRemoveAddBlock(event) {//shovel-land,pickaxe-for stone,axe-tre
     let sky = event.currentTarget.classList.contains("blockSky");
     let img = document.querySelector(".main_side_items__chosen img");
 
-    // debugger;
     if (remove === true) {//remove flow
-        // debugger;
         if(temp.getAttribute("src").includes("shovel"))
             shovel.setAttribute("style","border: 1px solid white;");
         else if(temp.getAttribute("src").includes("pickaxe"))
@@ -168,7 +151,6 @@ function useToolToRemoveAddBlock(event) {//shovel-land,pickaxe-for stone,axe-tre
         //is invalid tool for block
         if(stone && (choosenTool===shovel ||choosenTool===axe))
         {
-            // debugger;
             choosenTool.setAttribute("style","border: 1px solid red;");
             setTimeout(function(o){
                 choosenTool.setAttribute("style","border: 1px solid white;");
@@ -212,14 +194,12 @@ function useToolToRemoveAddBlock(event) {//shovel-land,pickaxe-for stone,axe-tre
         if (stone && choosenTool == pickaxe ) {
             choosenBlockTool = event.toElement.classList[2];
             event.currentTarget.classList.remove("blockStone");
-            // remove_again = false;
             img.setAttribute("src","stone_block.png");
         }
 
         if (treeLeaf && choosenTool == axe) {
             choosenBlockTool = event.currentTarget.classList[2];
             event.currentTarget.classList.remove("blockTreeLeaf");
-            // remove = false;
             img.setAttribute("src","tree_leaf.png");
 
         }
@@ -232,14 +212,12 @@ function useToolToRemoveAddBlock(event) {//shovel-land,pickaxe-for stone,axe-tre
         if (topLand && choosenTool == shovel) {
             choosenBlockTool = event.currentTarget.classList[2];
             event.currentTarget.classList.remove("blockTopLand");
-            // remove = false;
             img.setAttribute("src","land_top_block.png");
 
         }
         if (bottomLand && choosenTool == shovel) {
             choosenBlockTool = event.currentTarget.classList[2];
             event.currentTarget.classList.remove("blockBottomLand");
-            // remove = false;
             img.setAttribute("src","land_bottom_block.png");
 
         }
@@ -311,8 +289,6 @@ function chooseToolPickaxe(event) {
     }
     pickaxe.setAttribute("src","blue_pickaxe.png");
     choosenTool = pickaxe;
-    // temp.style.border="1px white solid";
-    // previousChosenTool=choosenTool;
 }
 
 function chooseToolShovel(event) {
@@ -326,8 +302,6 @@ function chooseToolShovel(event) {
     }
     shovel.setAttribute("src","blue_shovel.png");
     choosenTool = shovel;
-    // temp.style.border="1px white solid";
-    // previousChosenTool=choosenTool;
 }
 
 function chooseToolAxe(event) {
@@ -341,8 +315,6 @@ function chooseToolAxe(event) {
     }
     axe.setAttribute("src","blue_axe.png");
     choosenTool = axe;
-    // temp.style.border="1px white solid";
-    // previousChosenTool=choosenTool;
 }
 
 function grabBlockToPlaceInWorld(event) {
