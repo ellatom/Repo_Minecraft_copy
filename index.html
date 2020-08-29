@@ -168,27 +168,24 @@
     </div>
     <script>
 
-        // let theGame={ 
-        //      worldmatrix=[],
-        //      potentialsTools:{axe:1,picaxe:1,shovel:1},
-        //      selectedTool:{},
-        //      worldZoneElement:{sky:1,trunk:1,leaf:1,topDirt:1,bottomDirt:1,stone:1},
-             
-        // };
-
         let btnStart= document.querySelector(".main__btnStart");
         let pickaxe = document.querySelector(".main_side_items__pickaxe img");
         let shovel = document.querySelector(".main_side_items__shovel img");
         let axe = document.querySelector(".main_side_items__axe img");
         let reset=document.querySelector(".main_side_items__btn_resetworld");
         let choosenTool=pickaxe;
-        let chosenBlock= document.querySelector("main_side_items__chosen img");
+        let previousChosenTool=pickaxe;
+        let choosenBlockTool= document.querySelector(".main_side_items__chosen img");
+        let remove=true;
+        let add =false;
+
         
         btnStart.addEventListener("click",startGame);
         pickaxe.addEventListener("click",chooseToolPickaxe);
         shovel.addEventListener("click",chooseToolShovel);
         axe.addEventListener("click",chooseToolAxe);
-        chosenBlock.addEventListener("click",choosePlaceForBlockInWorld);
+        choosenBlockTool.addEventListener("click",grabBlockToPlaceInWorld);
+
         reset.addEventListener("click",startGame);
 
        
@@ -214,7 +211,6 @@
         }
         function hidePreviousPage1(event)
         {
-            
             let page1__left_panel_1 = document.querySelector(".page1__left_panel_1");
             let page1__left_panel_2 = document.querySelector(".page1__left_panel_2");
             let page1__left_panel_2__myWorld = document.querySelector(".page1__left_panel_2__myWorld");
@@ -223,6 +219,7 @@
             page1__left_panel_2__myWorld.style.display = 'grid';
         }
         function createNewWorld(event){
+            
             let worldArr=[];
             for(let row=0; row<20;row++)
             {
@@ -231,8 +228,21 @@
                     let page1__left_panel_2__myWorld=document.querySelector(".page1__left_panel_2__myWorld");
                     let div= document.createElement("div");
                     div.classList.add("block");
-                    div.addEventListener("click", useToolToRemoveBlock);
 
+                    div.addEventListener("click", useToolToRemoveAddBlock);
+                    // ...choosenBlockTool
+                    // function divClick()
+                    // {
+                    //     if (macav1) // 
+                    //     {
+                    //         useToolToRemoveBlock
+                    //     }
+                    //     if (macav2)
+                    //     {
+                    //         choosePlaceForBlockInWorld
+                    //     }
+                    // }
+                    
                     div.classList.add("blockSky");
                     page1__left_panel_2__myWorld.append(div);
                     let img = document.querySelector(".block.blockSky");
@@ -300,112 +310,133 @@
                 }
             }
         }
-        function useToolToRemoveBlock(event){//shovel-land,pickaxe-for stone,axe-tree green&&tree root=trunk
+        function useToolToRemoveAddBlock(event){//shovel-land,pickaxe-for stone,axe-tree green&&tree root=trunk
 
-            // debugger;
             console.log(event);
 
-            let stone= event.toElement.classList.contains("blockStone");
+            let stone= event.currentTarget.classList.contains("blockStone");
             let treeLeaf=event.currentTarget.classList.contains("blockTreeLeaf");
             let treeTrunk=event.currentTarget.classList.contains("blockTreeTrunk");
             let topLand =event.currentTarget.classList.contains("blockTopLand");
             let bottomLand= event.currentTarget.classList.contains("blockBottomLand");
-            let remove=true;
-            let main_side_items__chosen= document.querySelector(".main_side_items__chosen");
+            let sky= event.currentTarget.classList.contains("blockSky");
+            let img= document.querySelector(".main_side_items__chosen img");
 
+            if(remove===true){
+                if(stone && choosenTool==pickaxe && remove===true)
+                {
+                    choosenBlockTool=event.toElement.classList[2];
+                    event.currentTarget.classList.remove("blockStone");
+                    remove=false;
+                    img.src="stone_block.png";
 
-
-            if(stone && choosenTool==pickaxe && remove===true)
-            {
-                event.toElement.classList.remove("blockStone");
-                remove=false;
-                let img= document.querySelector(".main_side_items__chosen img");
-                img.src="stone_block.png";
-            }
-            if(treeLeaf && choosenTool==axe && remove===true)
-            {
+                }
                 
-                event.toElement.classList.remove("blockTreeLeaf");
-                remove=false;
-                let img= document.querySelector(".main_side_items__chosen img");
-                img.src="tree_leaf.png";
-            }
-            if(treeTrunk && choosenTool==axe && remove===true)
-            {
-                event.toElement.classList.remove("blockTreeTrunk");
-                let img= document.querySelector(".main_side_items__chosen img");
-                img.src="tree_trunk.png";
-            }
-            if(topLand && choosenTool==shovel && remove===true)
-            {
-                event.toElement.classList.remove("blockTopLand");
-                remove=false;
-                let img= document.querySelector(".main_side_items__chosen img");
-                img.src="land_top_block.png";
-            }
-            if(bottomLand && choosenTool==shovel && remove===true)
-            {
-                // debugger;
-                event.toElement.classList.remove("blockBottomLand");
-                remove=false;
-                let img= document.querySelector(".main_side_items__chosen img");
-                img.src="land_bottom_block.png";
-            }
-            if(((treeTrunk||treeLeaf ||stone ) && choosenTool===shovel))
-            {
-                shovel.style.border = "1px solid red";
-            }
-            if(((bottomLand||topLand ||stone ) && choosenTool===axe))
-            {
-    
-                axe.style.border = "1px solid red";
-            }
-            if(((bottomLand||topLand ||treeTrunk||treeLeaf ) && choosenTool===pickaxe))
-            {
-    
-                pickaxe.style.border="1px solid red";
-            }    
+                if(treeLeaf && choosenTool==axe && remove===true)
+                {
+                    choosenBlockTool=event.currentTarget.classList[2];
+                    event.currentTarget.classList.remove("blockTreeLeaf");
+                    remove=false;
+                    img.src="tree_leaf.png";
 
-        //     else{
-        // // if(choosenTool ===null && !(bottomLand || topLand || treeTrunk || treeLeaf || stone))
-        //         axe.src="axe.png";
-        //         pickaxe.src="pickaxe.png";
-        //         shovel.src="shovel.png";
+                }
+                if(treeTrunk && choosenTool==axe && remove===true)
+                {
+                    choosenBlockTool=event.currentTarget.classList[2];
+                    event.currentTarget.classList.remove("blockTreeTrunk");
+                    img.src="tree_trunk.png";
 
-        //         if(bottomLand &&remove===false){
-        //             event.toElement.classList.add("blockBottomLand");
-        //             event.toElement.src="land_bottom_block.png";
-        //         }
-        //         if(topLand &&remove===false)
-        //         {
-        //             event.toElement.classList.add("blockTopLand");
-        //             event.toElement.src="land_top_block.png";
-        //         }
-        //         if(treeTrunk &&remove===false)
-        //         {
-        //             event.toElement.classList.add("blockTreeTrunk");
-        //             event.toElement.src="tree_leaf.png";
-        //         }
-        //         if(treeLeaf &&remove===false)
-        //         {
-        //             event.toElement.classList.add("blockTreeLeaf");
-        //             event.toElement.src="tree_trunk.png";
-        //         }
-        //         if(stone &&remove===false)
-        //         {
-        //             event.toElement.classList.add("blockStone");
-        //             event.toElement.src="stone_block.png";
-        //         }
-        //     }
-        //     else{
-        //         .main_side_items__pickaxe img,
-        // .main_side_items__shovel img,
-        // .main_side_items__axe img
-        //     }
+                }
+                if(topLand && choosenTool==shovel && remove===true)
+                {
+                    choosenBlockTool=event.currentTarget.classList[2];
+                    event.currentTarget.classList.remove("blockTopLand");
+                    remove=false;
+                    img.src="land_top_block.png";
 
+                }
+                if(bottomLand && choosenTool==shovel && remove===true)
+                {
+                    choosenBlockTool=event.currentTarget.classList[2];
+                    event.currentTarget.classList.remove("blockBottomLand");
+                    remove=false;
+                    img.src="land_bottom_block.png";
+
+                }
+
+            }
+            debugger;
+            if(remove===false)
+            {
+                if(add===true&& choosenBlockTool==="blockStone")
+                {
+                    event.currentTarget.classList.add("blockStone");
+                    event.currentTarget.src="stone_block.png";
+                    img.src="none";
+                    add=false;
+                    remove=true;
+                }
+                if(add===true&& choosenBlockTool==="blockTopLand")
+                {
+                    event.currentTarget.classList.add("blockTopLand");
+                    event.currentTarget.src="land_bottom_block.png";
+                    img.src="none";
+                    add=false;
+                    remove=true;
+                }
+                if(add===true && choosenBlockTool==="blockBottomLand")
+                {
+                    event.currentTarget.classList.add("blockBottomLand");
+                    event.currentTarget.src="land_top_block.png";
+                    img.src="none";
+                    add=false;
+                    remove=true;
+                }
+                if(add===true && choosenBlockTool==="blockTreeLeaf")
+                {
+                    event.currentTarget.classList.add("blockTreeLeaf");
+                    event.currentTarget.src="tree_leaf.png";
+                    img.src="none";
+                    add=false;
+                    remove=true;
+                }
+                if(add===true && choosenBlockTool==="blockTreeTrunk")
+                {
+                    event.currentTarget.classList.add("blockTreeTrunk");
+                    event.currentTarget.src="tree_trunk.png";
+                    img.src="none";
+                    add=false;
+                    remove=true;
+                }
+            }
+
+            // if(((treeTrunk||treeLeaf ||stone ) && choosenTool===shovel))
+            // {
+            //     if(choosenTool!=previousChosenTool)
+            //     {
+            //         previousChosenTool.style.border="none";
+            //         choosenTool.style.border = "1px solid red";
+            //     }
+            // }
+            // if(((bottomLand||topLand ||stone ) && choosenTool===axe))
+            // {
+            //     if(choosenTool!=previousChosenTool)
+            //     {
+            //         previousChosenTool.style.border="none";
+            //         choosenTool.style.border = "1px solid red";
+            //     }
+            // }
+            // if(((bottomLand||topLand ||treeTrunk||treeLeaf ) && choosenTool===pickaxe))
+            // {
+            //     if(choosenTool!=previousChosenTool)
+            //     {
+            //         previousChosenTool.style.border="none";
+            //         choosenTool.style.border = "1px solid red";
+            //     }
+            // }    
         }
+        
         function chooseToolPickaxe(event){
-            // debugger;
             switch(choosenTool){
                 case shovel:
                     shovel.src="shovel.png";
@@ -418,8 +449,8 @@
             choosenTool=pickaxe;
             console.log("pickaxe was chosen");
         }
+        
         function chooseToolShovel(event){
-            // debugger;
             switch(choosenTool){
                 case axe:
                     axe.src="axe.png";
@@ -431,8 +462,8 @@
             shovel.src="blue_shovel.png";
             choosenTool=shovel;
         }
+        
         function chooseToolAxe(event){
-            // debugger;
             switch(choosenTool){//previous tool should be removed from purpule background
                 case shovel:
                     shovel.src="shovel.png";
@@ -444,34 +475,22 @@
             axe.src="blue_axe.png";
             choosenTool=axe;
         }//bug tools from axe to packaxe
-        function choosePlaceForBlockInWorld(event)
+        
+        function grabBlockToPlaceInWorld(event)
         {
-            pickaxe.src="picaxe.png";
-            axe.src="axe.png";
-            shovel.src="shovel.png";
-            choosenTool=null;
-        //     if(chosenBlock.src=== "stone_block.png")
-        //     {
-        //         .main_side_items__chosen img:hover{
-        //     border:4px blue solid;
-        // }
-        //     }
-        //     if(chosenBlock.src=== "tree_leaf.png")
-        //     {
-                
-        //     }   
-        //     if(chosenBlock.src=== "tile_grass.png")
-        //     {
-                
-        //     }   
-        //     if(chosenBlock.src=== "land_bottom_block.png")
-        //     {
-                
-        //     }  
-        //     if(chosenBlock.src=== "land_top_block.png")
-        //     {
-                
-        //     }       
+            // debugger;
+
+            if(choosenBlockTool!= "" && remove===false)
+            {
+                add=true;
+                if(choosenTool===pickaxe)
+                    pickaxe.src="pickaxe.png"; 
+                if(choosenTool===shovel)
+                    pickaxe.src="shovel.png"; 
+                if(choosenTool===axe)
+                    pickaxe.src="axe.png"; 
+
+            }
         }
     </script>
 </body>
