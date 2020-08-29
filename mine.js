@@ -25,10 +25,8 @@ reset.addEventListener("click", resetGame);
 function resetGame(event)
 {
     // debugger;
-    if(choosenTool.getAttribute("src").includes("axe"))
-        choosenTool.setAttribute("src","axe.png");
-    if(choosenTool.getAttribute("src").includes("shovel"))
-        choosenTool.setAttribute("src","shovel.png");
+    axe.setAttribute("src","axe.png");
+    shovel.setAttribute("src","shovel.png");
     pickaxe.setAttribute("src","blue_pickaxe.png")
 
     axe.setAttribute("style","border:1px solid white");
