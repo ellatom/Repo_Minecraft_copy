@@ -247,6 +247,8 @@ function useToolToRemoveAddBlock(event) {//shovel-land,pickaxe-for stone,axe-tre
         if ( choosenBlockTool === "blockStone"&&choosenTool!=null) {
             event.currentTarget.classList.add("blockStone");
             event.currentTarget.setAttribute("src","stone_block.png");
+
+            debugger;
             img.setAttribute("src","default.png");
             add = false;
             remove = true;
