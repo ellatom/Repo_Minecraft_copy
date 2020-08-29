@@ -5,8 +5,6 @@ let shovel = document.querySelector(".main_side_items__shovel img");
 let axe = document.querySelector(".main_side_items__axe img");
 let reset = document.querySelector(".main_side_items__btn_resetworld");
 let choosenTool = pickaxe;
-// let previousChosenTool = pickaxe;
-// let tempTool=pickaxe;
 let temp=pickaxe;
 let choosenBlockTool = document.querySelector(".main_side_items__chosen img");
 let remove = true;
@@ -185,6 +183,7 @@ function useToolToRemoveAddBlock(event) {//shovel-land,pickaxe-for stone,axe-tre
             else
                 temp=shovel;
         }
+        debugger;
         if((treeLeaf || treeTrunk) && (choosenTool===shovel ||choosenTool===pickaxe))
         {
             choosenTool.setAttribute("style","border: 1px solid red;");
@@ -347,16 +346,16 @@ function chooseToolAxe(event) {
 }
 
 function grabBlockToPlaceInWorld(event) {
-    // debugger;
+    debugger;
     if (choosenBlockTool != "") {
         add = true;
         remove=false;
         if (choosenTool === pickaxe)
             pickaxe.setAttribute("src","pickaxe.png");
         if (choosenTool === shovel)
-            pickaxe.setAttribute("src","shovel.png");
+            shovel.setAttribute("src","shovel.png");
         if (choosenTool === axe)
-            pickaxe.setAttribute("src","axe.png");
+            axe.setAttribute("src","axe.png");
 
     }
 }
