@@ -12,7 +12,7 @@
 <div>Click on inventory take the block, remove chosen tool and after clicking on spot you want to add in world the block is added.</div>
 <div>Reset button is used for reset of world.</div>
 
-![stack Overflow](minecraft.png)
+![stack Overflow](minecraftgame.png)
 
 
 
